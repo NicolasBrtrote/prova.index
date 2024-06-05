@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulário de Notas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"], input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 600px;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>Formulário de Notas</h2>
+        <form id="formNotas">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome">
+            
+            <label for="matricula">Matrícula:</label>
+            <input type="text" id="matricula" name="matricula">
+            
+            <label for="nota1">Nota do 1º Bimestre:</label>
+            <input type="number" id="nota1" name="nota1" min="0" max="10" step="0.01">
+            
+            <label for="nota2">Nota do 2º Bimestre:</label>
+            <input type="number" id="nota2" name="nota2" min="0" max="10" step="0.01">
+            
+            <button type="button" onclick="adicionarAluno()">Adicionar Nota</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Tabela das Notas</h2>
+        <table id="tabelaNotas">
+            <thead>
+                <tr>
+                    <th>Nome do Aluno</th>
+                    <th>Matrícula</th>
+                    <th>Nota do 1º Bimestre</th>
+                    <th>Nota do 2º Bimestre</th>
+                    <th>Média</th>
+                    <th>Resultado</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function adicionarAluno() {
+            var nome = document.getElementById('nome').value;
+            var matricula = document.getElementById('matricula').value;
+            var nota1 = parseFloat(document.getElementById('nota1').value);
+            var nota2 = parseFloat(document.getElementById('nota2').value);
+
+            if (nome && matricula && !isNaN(nota1) && nota1 <= 10 && !isNaN(nota2) && nota2 <= 10) {
+                var media = (nota1 + nota2) / 2;
+                var status = media >= 5 ? 'Aprovado' : 'Reprovado';
+                adicionarLinhaTabela(nome, matricula, nota1, nota2, media, status);
+                document.getElementById('formNotas').reset();
+            } else {
+                alert("Prencha o que foi pedido");
+            }
+        }
+
+        function adicionarLinhaTabela(nome, matricula, nota1, nota2, media, status) {
+            var tabela = document.getElementById('tabelaNotas').getElementsByTagName('tbody')[0];
+            var novaLinha = tabela.insertRow();
+
+            var celulaNome = novaLinha.insertCell(0);
+            var celulaMatricula = novaLinha.insertCell(1);
+            var celulaNota1 = novaLinha.insertCell(2);
+            var celulaNota2 = novaLinha.insertCell(3);
+            var celulaMedia = novaLinha.insertCell(4);
+            var celulaStatus = novaLinha.insertCell(5);
+
+            celulaNome.innerHTML = nome;
+            celulaMatricula.innerHTML = matricula;
+            celulaNota1.innerHTML = nota1.toFixed(2);
+            celulaNota2.innerHTML = nota2.toFixed(2);
+            celulaMedia.innerHTML = media.toFixed(2);
+            celulaStatus.innerHTML = status;
+        }
+    </script>
+</body>
+</html>
